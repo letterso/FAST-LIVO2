@@ -54,29 +54,6 @@ Eigen>=3.3.4, Follow [Eigen Installation](https://eigen.tuxfamily.org/index.php?
 
 OpenCV>=4.2, Follow [Opencv Installation](http://opencv.org/).
 
-### 2.3 Sophus
-
-Sophus Installation for the non-templated/double-only version.
-
-```bash
-git clone https://github.com/strasdat/Sophus.git
-cd Sophus
-git checkout a621ff
-mkdir build && cd build && cmake ..
-make
-sudo make install
-```
-
-### 2.4 Vikit
-
-Vikit contains camera models, some math and interpolation functions that we need. Vikit is a catkin project, therefore, download it into your catkin workspace source folder.
-
-```bash
-# Different from the one used in fast-livo1
-cd catkin_ws/src
-git clone https://github.com/xuankuzcr/rpg_vikit.git 
-```
-
 ## 3. Build
 
 Clone the repository and catkin_make:
