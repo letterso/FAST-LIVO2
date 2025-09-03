@@ -87,24 +87,18 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   message_generation
   eigen_conversions
-  vikit_common
-  vikit_ros
-  cv_bridge
   image_transport
 )
 
 find_package(Eigen3 REQUIRED)
 find_package(PCL REQUIRED)
 find_package(OpenCV REQUIRED)
-find_package(Sophus REQUIRED)
 find_package(Boost REQUIRED COMPONENTS thread)
-
-set(Sophus_LIBRARIES libSophus.so)
 
 # Define the catkin package
 catkin_package(
-  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs message_runtime cv_bridge vikit_common vikit_ros image_transport
-  DEPENDS EIGEN3 PCL OpenCV Sophus
+  CATKIN_DEPENDS geometry_msgs nav_msgs roscpp rospy std_msgs message_runtime vikit_common vikit_ros image_transport
+  DEPENDS EIGEN3 PCL OpenCV
 )
 
 # Include directories for dependencies
@@ -113,9 +107,35 @@ include_directories(
   ${EIGEN3_INCLUDE_DIR}
   ${PCL_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
-  ${Sophus_INCLUDE_DIRS}
   include
 )
+
+# cv_bridge
+add_library(CV_BRIDGES_LIB 
+    src/cv_bridge/cv_bridge.cpp 
+    src/cv_bridge/rgb_colors.cpp
+)
+target_include_directories(CV_BRIDGES_LIB PUBLIC 
+    ${catkin_INCLUDE_DIRS}
+)
+target_link_libraries(CV_BRIDGES_LIB 
+    ${OpenCV_LIBRARIES}
+    ${catkin_LIBRARIES}
+)
+
+# vikit
+add_library(VIKIT_LIBS SHARED
+        src/vikit/atan_camera.cpp
+        src/vikit/equidistant_camera.cpp
+        src/vikit/omni_camera.cpp
+        src/vikit/pinhole_camera.cpp
+        src/vikit/polynomial_camera.cpp
+        src/vikit/vision.cpp
+        src/vikit/math_utils.cpp)
+target_include_directories(VIKIT_LIBS PUBLIC 
+        ${EIGEN3_INCLUDE_DIR})      
+target_link_libraries(VIKIT_LIBS PUBLIC
+        ${OpenCV_LIBRARIES})
 
 # Add libraries
 add_library(vio src/vio.cpp src/frame.cpp src/visual_point.cpp)
@@ -134,10 +154,11 @@ target_link_libraries(fastlivo_mapping
   lio
   pre
   imu_proc
+  VIKIT_LIBS
+  CV_BRIDGES_LIB
   ${catkin_LIBRARIES}
   ${PCL_LIBRARIES}
   ${OpenCV_LIBRARIES}
-  ${Sophus_LIBRARIES}
   ${Boost_LIBRARIES}
 )
 

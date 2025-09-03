@@ -18,12 +18,10 @@ which is included as part of this source code package.
 #include <utils/color.h>
 #include <opencv2/opencv.hpp>
 #include <sensor_msgs/Imu.h>
-#include <sophus/se3.h>
 #include <tf/transform_broadcaster.h>
 
 using namespace std;
 using namespace Eigen;
-using namespace Sophus;
 
 #define print_line std::cout << __FILE__ << ", " << __LINE__ << std::endl;
 #define G_m_s2 (9.81)   // Gravaty const in GuangDong/China

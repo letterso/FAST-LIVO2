@@ -16,7 +16,6 @@ which is included as part of this source code package.
 #include "visual_point.h"
 #include <stdexcept>
 #include <vikit/math_utils.h>
-#include <vikit/performance_monitor.h>
 #include <vikit/vision.h>
 
 int Frame::frame_counter_ = 0;
